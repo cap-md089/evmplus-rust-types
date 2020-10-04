@@ -229,3 +229,80 @@ pub enum Member {
 	CAPNHQMember(CAPNHQMember),
 	CAPProspectiveMember(CAPProspectiveMember)
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct CAPSquadronMemberPermissions {}
+
+#[derive(Serialize, Deserialize)]
+pub struct CAPGroupMemberPermissions {}
+
+#[derive(Serialize, Deserialize)]
+pub struct CAPWingmemberPermissions {}
+
+#[derive(Serialize, Deserialize)]
+pub struct CAPRegionMemberPermissions {}
+
+#[derive(Serialize, Deserialize)]
+pub struct CAPEventMemberPermissions {}
+
+#[derive(Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum MemberPermissions {
+	CAPSquadron(CAPSquadronMemberPermissions),
+	CAPGroup(CAPGroupMemberPermissions),
+	CAPWing(CAPWingmemberPermissions),
+	CAPRegion(CAPRegionMemberPermissions),
+	CAPEvent(CAPEventMemberPermissions)
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct User {
+	#[serde(flatten)]
+	pub member: Member,
+
+	#[serde(rename = "sessionID")]
+	pub session_id: String,
+
+	pub permissions: MemberPermissions
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct AccountLinkTarget {
+	pub id: String,
+
+	pub name: String
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(tag = "error")]
+pub enum SigninReturn {
+	None {
+		#[serde(rename = "sessionID")]
+		session_id: String,
+
+		member: User,
+
+		#[serde(rename = "notificationCount")]
+		notification_count: u16,
+
+		#[serde(rename = "taskCount")]
+		task_count: u16,
+
+		#[serde(rename = "linkableAccounts")]
+		linkable_accounts: Vec<AccountLinkTarget>
+	},
+	IncorrectCredentials,
+	ServerError,
+	PasswordExpired {
+		#[serde(rename = "sessionID")]
+		session_id: String
+	},
+	InvalidSessionID,
+	TokenInvalid,
+	UnknownServerError,
+	DatabaseError,
+	MFAChallengeRequired {
+		#[serde(rename = "sessionID")]
+		session_id: String
+	}
+}
