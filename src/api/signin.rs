@@ -23,9 +23,33 @@ pub enum SigninToken {
 	Signature(SignatureToken)
 }
 
+impl SigninToken {
+	pub fn new_signature(
+		nonce: String,
+		signature: String,
+		signature_id: String
+	) -> Self {
+		Self::Signature(SignatureToken {
+			nonce,
+			signature,
+			signature_id
+		})
+	}
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct SigninRequest {
 	username: String,
 	password: String,
 	token: SigninToken
+}
+
+impl SigninRequest {
+	pub fn new(username: String, password: String, token: SigninToken) -> Self {
+		Self {
+			username,
+			password,
+			token
+		}
+	}
 }
