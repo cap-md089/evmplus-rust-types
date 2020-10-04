@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+pub mod signin;
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct HTTPError {
 	pub code: u16,
