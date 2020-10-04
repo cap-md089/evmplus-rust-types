@@ -18,6 +18,7 @@ pub struct SignatureToken {
 }
 
 #[derive(Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum SigninToken {
 	Recaptcha(RecaptchaToken),
 	Signature(SignatureToken)
