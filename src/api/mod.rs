@@ -18,3 +18,12 @@ pub enum Either<L, R> {
 }
 
 pub type APIEither<T> = Either<HTTPError, T>;
+
+impl<L, R> Into<Result<R, L>> for Either<L, R> {
+	fn into(self) -> Result<R, L> {
+		match self {
+			Self::Left(l) => Err(l),
+			Self::Right(r) => Ok(r)
+		}
+	}
+}
