@@ -13,10 +13,10 @@ pub struct HTTPError {
 #[serde(tag = "direction")]
 pub enum Either<L, R> {
 	#[serde(rename = "left")]
-	Left(L),
+	Left { value: L },
 
 	#[serde(rename = "right")]
-	Right(R)
+	Right { value: R }
 }
 
 pub type APIEither<T> = Either<HTTPError, T>;
@@ -24,8 +24,8 @@ pub type APIEither<T> = Either<HTTPError, T>;
 impl<L, R> Into<Result<R, L>> for Either<L, R> {
 	fn into(self) -> Result<R, L> {
 		match self {
-			Self::Left(l) => Err(l),
-			Self::Right(r) => Ok(r)
+			Self::Left { value } => Err(value),
+			Self::Right { value } => Ok(value)
 		}
 	}
 }
