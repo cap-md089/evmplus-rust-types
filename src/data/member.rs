@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::data::Identifiable;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct AbsenteeInformation {
 	pub comments: String,
@@ -10,7 +10,7 @@ pub struct AbsenteeInformation {
 	pub absent_until: u64
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct CAPMemberContactInstance {
 	#[serde(rename = "PRIMARY")]
 	pub primary: Option<String>,
@@ -22,7 +22,7 @@ pub struct CAPMemberContactInstance {
 	pub emergency: Option<String>
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct CAPMemberContact {
 	#[serde(rename = "ALPHAPAGER")]
 	pub alpha_pager: CAPMemberContactInstance,
@@ -70,14 +70,14 @@ pub struct CAPMemberContact {
 	pub work_phone: CAPMemberContactInstance
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct NewShortCAPUnitDutyPosition {
 	pub duty: String,
 
 	pub expires: u64
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct ShortCAPUnitDutyPosition {
 	#[serde(flatten)]
 	pub duty_information: NewShortCAPUnitDutyPosition,
@@ -85,7 +85,7 @@ pub struct ShortCAPUnitDutyPosition {
 	pub date: u64
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct ShortNHQDutyPosition {
 	pub duty: String,
 
@@ -94,21 +94,21 @@ pub struct ShortNHQDutyPosition {
 	pub orgid: u32
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(tag = "type")]
 pub enum ShortDutyPosition {
 	CAPUnit(ShortCAPUnitDutyPosition),
 	NHQ(ShortNHQDutyPosition)
 }
 
-#[derive(Serialize, Deserialize, PartialEq, Eq, Clone)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone)]
 #[serde(tag = "type")]
 pub enum MemberReference {
 	CAPNHQMember { id: u32 },
 	CAPProspectiveMember { id: String }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct CAPNHQMember {
 	pub id: u32,
@@ -162,7 +162,7 @@ impl Identifiable for CAPNHQMember {
 	}
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct NewCAPProspectiveMember {
 	pub flight: Option<String>,
@@ -180,7 +180,7 @@ pub struct NewCAPProspectiveMember {
 	pub name_suffix: String
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct FullCAPProspectiveMember {
 	#[serde(flatten)]
@@ -208,7 +208,7 @@ pub struct FullCAPProspectiveMember {
 	pub squadron: String
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct UpgradeCAPProspectiveMember {
 	pub id: String,
@@ -216,36 +216,36 @@ pub struct UpgradeCAPProspectiveMember {
 	pub nhq_reference: MemberReference
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(untagged)]
 pub enum CAPProspectiveMember {
 	Upgraded(UpgradeCAPProspectiveMember),
 	Regular(FullCAPProspectiveMember)
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(tag = "type")]
 pub enum Member {
 	CAPNHQMember(CAPNHQMember),
 	CAPProspectiveMember(CAPProspectiveMember)
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct CAPSquadronMemberPermissions {}
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct CAPGroupMemberPermissions {}
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct CAPWingmemberPermissions {}
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct CAPRegionMemberPermissions {}
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct CAPEventMemberPermissions {}
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(tag = "type")]
 pub enum MemberPermissions {
 	CAPSquadron(CAPSquadronMemberPermissions),
@@ -255,7 +255,7 @@ pub enum MemberPermissions {
 	CAPEvent(CAPEventMemberPermissions)
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct User {
 	#[serde(flatten)]
 	pub member: Member,
@@ -266,14 +266,14 @@ pub struct User {
 	pub permissions: MemberPermissions
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct AccountLinkTarget {
 	pub id: String,
 
 	pub name: String
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(tag = "error")]
 pub enum SigninReturn {
 	None {
