@@ -260,9 +260,6 @@ pub struct User {
 	#[serde(flatten)]
 	pub member: Member,
 
-	#[serde(rename = "sessionID")]
-	pub session_id: String,
-
 	pub permissions: MemberPermissions
 }
 
@@ -277,9 +274,6 @@ pub struct AccountLinkTarget {
 #[serde(tag = "error")]
 pub enum SigninReturn {
 	None {
-		#[serde(rename = "sessionID")]
-		session_id: String,
-
 		member: User,
 
 		#[serde(rename = "notificationCount")]
@@ -293,16 +287,10 @@ pub enum SigninReturn {
 	},
 	IncorrectCredentials,
 	ServerError,
-	PasswordExpired {
-		#[serde(rename = "sessionID")]
-		session_id: String
-	},
+	PasswordExpired,
 	InvalidSessionID,
 	TokenInvalid,
 	UnknownServerError,
 	DatabaseError,
-	MFAChallengeRequired {
-		#[serde(rename = "sessionID")]
-		session_id: String
-	}
+	MFAChallengeRequired
 }
